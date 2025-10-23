@@ -12,77 +12,40 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* ---------- Theme tokens ---------- */
-    :root{
-      --bg: #f7fbfc;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent-1: #06b6d4; /* cyan */
-      --accent-2: #0284c7; /* deeper blue */
-      --glass: rgba(255,255,255,0.7);
-      --radius: 14px;
-    }
+   /* === NAVBAR MODERN GLASS & PARALLAX === */
+header.nav {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.06);
+  transition: all 0.4s ease;
+}
 
-    /* prefer SF Pro Display if available */
-    body {
-      font-family: "SF Pro Display", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
-      color: #0f172a;
-    }
+/* Lapisan efek parallax */
+header.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+  mix-blend-mode: overlay;
+  transform: translate(0, 0);
+  transition: transform 0.4s ease-out;
+  z-index: 0;
+}
 
-    /* small, tasteful animations */
-    .fade-up { transform: translateY(8px); opacity:0; transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s;}
-    .is-visible { transform: translateY(0); opacity:1; }
-    .lift { transition: transform .18s ease, box-shadow .18s ease; }
-    .lift:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
+/* Supaya konten di atas layer glass */
+header.nav * {
+  position: relative;
+  z-index: 1;
+}
 
-    /* nav glass */
-    header.nav { backdrop-filter: blur(6px); background: rgba(255,255,255,0.5); border-radius: 16px; }
-
-    /* buttons */
-    .btn-primary {
-      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color: white;
-      padding: .65rem 1rem;
-      border-radius: 12px;
-      font-weight:600;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.08);
-    }
-    .btn-primary:active { transform: translateY(1px) scale(.998); }
-    .btn-ghost {
-      background: white;
-      border: 1px solid rgba(15,23,42,0.06);
-      border-radius: 12px;
-      padding: .55rem .95rem;
-      font-weight:600;
-    }
-
-    /* hero card */
-    .hero-card {
-      border-radius: var(--radius);
-      box-shadow: 0 16px 50px rgba(2,6,23,0.06);
-      overflow: hidden;
-    }
-
-    /* project card style */
-    .project-card { border-radius: 12px; overflow: hidden; background: var(--card); transition: transform .25s ease, box-shadow .25s ease; }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
-
-    /* modal */
-    .modal-backdrop { background: rgba(2,6,23,0.55); }
-    .modal { max-width: 920px; width: calc(100% - 32px); border-radius: 14px; overflow: hidden; }
-
-    /* small helpers for truncation */
-    .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-
-    /* accessible focus */
-    :focus { outline: 3px solid rgba(6,182,212,0.12); outline-offset: 3px; }
-
-    /* responsive tweaks if needed */
-    @media (min-width: 1024px){
-      .hero-image { height: 360px; object-fit:cover; }
-    }
+/* Efek hover subtle */
+header.nav:hover {
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 12px 36px rgba(2, 6, 23, 0.1);
+} 
   </style>
 </head>
 <body class="antialiased">
@@ -237,131 +200,36 @@
 
   <!-- small script: render projects, modal, animation observer -->
   <script>
-    // sample projects data (ganti dengan milikmu atau render dinamis)
-    const projects = [
-      {
-        id: 'drone',
-        title: 'UI/UX Pemesanan Drone',
-        summary: 'Menyederhanakan alur pemesanan — konversi +28%.',
-        type: 'uiux',
-        image: 'https://images.unsplash.com/photo-1545235617-2d11a9b3f9d4?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      },
-      {
-        id: 'agritech',
-        title: 'Branding & Dashboard Agritech',
-        summary: 'Rebranding dan dashboard desain untuk monitoring lahan.',
-        type: 'branding',
-        image: 'https://images.unsplash.com/photo-1504609813442-a8929a1a9e5b?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      },
-      {
-        id: 'interior3d',
-        title: 'Visual 3D Interior',
-        summary: 'Visualisasi interior untuk presentasi investor.',
-        type: 'visual3d',
-        image: 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      }
-    ];
+  // === PARALLAX GLASS NAV ===
+  const nav = document.querySelector('header.nav');
+  const layer = document.createElement('div');
 
-    // render project cards
-    const projectsEl = document.getElementById('projects');
-    function renderProjects(list){
-      projectsEl.innerHTML = '';
-      list.forEach(p => {
-        const el = document.createElement('article');
-        el.className = 'project-card overflow-hidden bg-white lift';
-        el.setAttribute('tabindex','0');
-        el.innerHTML = `
-          <div class="w-full h-44 overflow-hidden">
-            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover" loading="lazy">
-          </div>
-          <div class="p-4">
-            <h4 class="font-semibold text-lg">${p.title}</h4>
-            <p class="text-sm text-slate-600 mt-2 line-clamp-3">${p.summary}</p>
-            <div class="mt-3 flex items-center justify-between">
-              <span class="text-xs text-slate-500 px-2 py-1 rounded bg-slate-50">${p.type.toUpperCase()}</span>
-              <button class="text-[color:var(--accent-2)] text-sm open-project" data-id="${p.id}">Buka detail →</button>
-            </div>
-          </div>
-        `;
-        projectsEl.appendChild(el);
-      });
-    }
-
-    // initial render
-    renderProjects(projects);
-
-    // filtering
-    document.getElementById('filter').addEventListener('change', e => {
-      const v = e.target.value;
-      if(v === 'all') renderProjects(projects);
-      else renderProjects(projects.filter(p => p.type === v));
+  // tambahkan layer efek jika belum ada
+  if (!nav.querySelector('.parallax-bg')) {
+    layer.classList.add('parallax-bg');
+    Object.assign(layer.style, {
+      position: 'absolute',
+      inset: '0',
+      background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), rgba(255,255,255,0.1))',
+      transition: 'transform 0.3s ease-out',
+      zIndex: 0
     });
+    nav.prepend(layer);
+  }
 
-    // modal logic
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalImg = document.getElementById('modalImg');
-    const modalLink = document.getElementById('modalLink');
-    const modalType = document.getElementById('modalType');
+  nav.addEventListener('mousemove', (e) => {
+    const rect = nav.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;  // 10 = seberapa jauh gerak
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
+    layer.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+  });
 
-    function openModal(id){
-      const p = projects.find(x => x.id === id);
-      if(!p) return;
-      modalTitle.textContent = p.title;
-      modalDesc.textContent = p.summary;
-      modalImg.src = p.image;
-      modalImg.alt = p.title;
-      modalLink.href = p.link || '#';
-      modalType.textContent = p.type.toUpperCase();
-      modal.classList.remove('hidden');
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal(){
-      modal.classList.add('hidden');
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+  nav.addEventListener('mouseleave', () => {
+    layer.style.transform = 'translate(0, 0) scale(1)';
+  });
+</script>
 
-    document.addEventListener('click', e => {
-      const t = e.target;
-      if(t.classList.contains('open-project')){
-        openModal(t.dataset.id);
-      }
-      if(t.id === 'modalClose' || t.classList.contains('modal-backdrop')) closeModal();
-    });
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape') closeModal();
-    });
-
-    // small menu toggle
-    function toggleMenu(v){
-      const el = document.getElementById('mobileMenu');
-      if(typeof v === 'boolean'){
-        el.classList.toggle('hidden', !v);
-      } else el.classList.toggle('hidden');
-    }
-    document.getElementById('btnMenu').addEventListener('click', ()=> toggleMenu());
-
-    // animate on scroll (simple intersection observer)
-    const appear = document.querySelectorAll('[data-appear]');
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    }, {threshold: 0.08});
-    appear.forEach(a => obs.observe(a));
-
-    // set year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // progressive enhancement: try to use SF Pro Display if you uploaded font to /assets/fonts/
-    // If you want SF Pro locally, add @font-face in CSS and put files under /assets/fonts/
-  </script>
 
 </body>
 </html>
+
