@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wave Studio — Fullscreen Hero</title>
+  <meta name="description" content="Wave Studio — Creative Designer & UI/UX" />
+  <!-- Prefer SF Pro Display locally; fallback Inter -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#06b6d4;
+      --accent-2:#0284c7;
+      --bg:#0f172a;
+      --glass: rgba(255,255,255,0.12);
+      --radius:14px;
+      --max:1200px;
+    }
+    html,body{height:100%;margin:0;font-family:"SF Pro Display",Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#0f172a;}
+    a{color:inherit;text-decoration:none}
+    /* page layout */
+    .hero-wrap{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0b1220;}
+    .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center center;filter:contrast(1.02) saturate(1.05);transform:scale(1.02);transition:transform .8s ease;}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(6,22,34,0.18) 0%, rgba(255,255,255,0.02) 60%);}
+    .container{position:relative;z-index:5;max-width:var(--max);padding:48px 28px;width:100%;}
+    /* glass navbar */
+    header.nav{position:fixed;left:20px;right:20px;top:20px;z-index:10;border-radius:16px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(8px);background:rgba(255,255,255,0.06);box-shadow:0 8px 30px rgba(2,6,23,0.12);transition:all .28s ease;}
+    header.nav .brand{font-weight:700;font-size:18px}
+    header.nav .items{display:flex;gap:14px;align-items:center}
+    header.nav .btn-ghost{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:10px;color:#fff;font-weight:600}
+    header.nav .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 14px;border-radius:10px;color:white;font-weight:700;border:none}
+    /* hero content card */
+    .hero-card{max-width:980px;margin:0 auto;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.86));border-radius:14px;padding:36px;display:flex;gap:28px;align-items:center;box-shadow:0 30px 80px rgba(2,6,23,0.12);color:#071026}
+    .hero-left{flex:1}
+    .hero-right{width:360px;border-radius:12px;overflow:hidden}
+    .hero-title{font-size:32px;line-height:1.02;margin:0 0 12px;font-weight:800}
+    .hero-desc{color:#475569;margin:0 0 18px}
+    .btn-row{display:flex;gap:12px;flex-wrap:wrap}
+    .muted{font-size:13px;color:#64748b;margin-top:12px}
+    /* small screens */
+    @media (max-width:900px){
+      header.nav{left:12px;right:12px;padding:8px 12px}
+      .hero-card{flex-direction:column;padding:22px}
+      .hero-right{width:100%;height:220px}
+      .hero-title{font-size:28px;text-align:left}
+    }
+    /* subtle entrance */
+    .fade-up{transform:translateY(12px);opacity:0;transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    .is-visible{transform:none;opacity:1}
+    /* parallax layer for nav */
+    .nav-parallax{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;mix-blend-mode:overlay;transition:transform .25s ease}
+    /* accessibility focus */
+    :focus{outline:3px solid rgba(6,182,212,0.16);outline-offset:3px}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" role="navigation" aria-label="Main">
+    <div class="brand">Wave<span style="color:var(--accent-2)">Studio</span></div>
+    <div class="items">
+      <nav class="links" aria-label="Primary links" style="display:flex;gap:12px;align-items:center">
+        <a href="#work" style="color:#fff;opacity:.95">Work</a>
+        <a href="#about" style="color:#fff;opacity:.85">About</a>
+        <a href="#contact" style="color:#fff;opacity:.85">Contact</a>
+      </nav>
+      <button class="btn-ghost" onclick="location.href='/cv.pdf'">Download CV</button>
+    </div>
+    <div class="nav-parallax" aria-hidden="true"></div>
+  </header>
+
+  <!-- HERO full screen -->
+  <section class="hero-wrap" id="hero" role="region" aria-label="Hero">
+    <!-- background image: replace path with assets/images/hero.jpg -->
+    <div class="hero-bg" id="heroBg" style="background-image:url('assets/images/hero.jpg');"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="container">
+      <div class="hero-card fade-up" id="heroCard" tabindex="-1" role="article" aria-labelledby="heroTitle">
+        <div class="hero-left">
+          <h1 id="heroTitle" class="hero-title">Creative Designer &amp; UI/UX</h1>
+          <p class="hero-desc">Saya membantu startup &amp; agritech merancang produk digital yang intuitif dan berdampak — dari research, prototyping hingga visual.</p>
+
+          <div class="btn-row">
+            <a class="btn-primary" href="#work">Lihat Portofolio</a>
+            <a class="btn-ghost" href="#contact">Hubungi Saya</a>
+          </div>
+
+          <div class="muted">Tools: Figma • Tailwind • Webflow • Adobe • HTML/CSS</div>
+        </div>
+
+        <div class="hero-right" aria-hidden="false">
+          <!-- simple image slot; replace with mockup -->
+          <img src="assets/images/hero-card.jpg" alt="hero mockup" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- sample section to scroll to -->
+  <main style="max-width:var(--max);margin:36px auto;padding:0 24px">
+    <section id="work" style="padding:36px 0">
+      <h2 style="margin:0 0 12px;font-size:20px">Selected Work</h2>
+      <p style="margin:0 0 18px;color:#64748b">Klik untuk detail — contoh proyek tampil di bawah.</p>
+      <!-- placeholder -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+        <div style="background:white;padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)">
+          <img src="assets/images/project1.jpg" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:8px">
+          <h3 style="margin:10px 0 6px">Project A</h3>
+          <p style="margin:0;color:#475569;font-size:14px">Ringkasan singkat dampak project.</p>
+        </div>
+        <div style="background:white;padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)">
+          <img src="assets/images/project2.jpg" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:8px">
+          <h3 style="margin:10px 0 6px">Project B</h3>
+          <p style="margin:0;color:#475569;font-size:14px">Ringkasan singkat dampak project.</p>
+        </div>
+        <div style="background:white;padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)">
+          <img src="assets/images/project3.jpg" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:8px">
+          <h3 style="margin:10px 0 6px">Project C</h3>
+          <p style="margin:0;color:#475569;font-size:14px">Ringkasan singkat dampak project.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="padding:36px 0">
+      <h2 style="margin:0 0 12px;font-size:20px">About</h2>
+      <p style="margin:0;color:#64748b">Sedikit tentang diriku dan pengalaman kerja.</p>
+    </section>
+
+    <section id="contact" style="padding:36px 0">
+      <h2 style="margin:0 0 12px;font-size:20px">Contact</h2>
+      <p style="margin:0;color:#64748b">Email: <a href="mailto:idn@wavestudio.space">idn@wavestudio.space</a></p>
+    </section>
+  </main>
+
+  <footer style="text-align:center;padding:24px 0;color:#94a3b8">© <span id="yr"></span> Wave Studio</footer>
+
+  <script>
+    // set year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // simple fade-in when in view
+    window.addEventListener('load', ()=> {
+      document.querySelectorAll('.fade-up').forEach(el=>{
+        setTimeout(()=> el.classList.add('is-visible'), 120);
+      });
+    });
+
+    // nav parallax (simple follow mouse)
+    (function(){
+      const nav = document.querySelector('header.nav');
+      const par = nav.querySelector('.nav-parallax');
+      // initial subtle radial
+      par.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 40%)';
+      nav.addEventListener('mousemove', (e)=>{
+        const r = nav.getBoundingClientRect();
+        const cx = (e.clientX - r.left) / r.width;
+        const cy = (e.clientY - r.top) / r.height;
+        const tx = (cx - 0.5) * 18;
+        const ty = (cy - 0.5) * 8;
+        par.style.transform = `translate(${tx}px, ${ty}px)`;
+      });
+      nav.addEventListener('mouseleave', ()=> par.style.transform = 'translate(0,0)');
+    })();
+
+    // simple hero parallax on scroll (background moves slower)
+    (function(){
+      const bg = document.getElementById('heroBg');
+      window.addEventListener('scroll', ()=> {
+        const sc = window.scrollY;
+        // move bg slightly slower than scroll
+        bg.style.transform = `translateY(${sc * 0.12}px) scale(1.02)`;
+      }, {passive:true});
+    })();
+
+    // keyboard accessible focus for hero card
+    document.getElementById('heroCard').addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') location.href = '#work';
+    });
+  </script>
+</body>
+</html>
