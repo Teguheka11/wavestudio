@@ -3,165 +3,107 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Wave Studio — Creative Designer & UI/UX</title>
-  <meta name="description" content="Wave Studio — portfolio UI/UX, branding, visual 3D. Case study dengan dampak nyata." />
-  <!-- fallback font: Inter from Google; prefer SF Pro Display if installed on device -->
+  <title>Wave Studio — Portfolio</title>
+  <meta name="description" content="Wave Studio — Creative Designer & UI/UX. Portofolio: case studies, branding, visual 3D." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Tailwind CDN for utility classes -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* ---------- Theme tokens ---------- */
     :root{
-      --bg: #f7fbfc;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent-1: #06b6d4; /* cyan */
-      --accent-2: #0284c7; /* deeper blue */
-      --glass: rgba(255,255,255,0.7);
-      --radius: 14px;
+      --accent:#06B6D4;       /* teal accent */
+      --accent-600:#0891b2;
+      --muted:#6b7280;
+      --card:bg: rgba(255,255,255,0.6);
     }
-
-    /* prefer SF Pro Display if available */
-    body {
-      font-family: "SF Pro Display", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
-      color: #0f172a;
-    }
-
-    /* small, tasteful animations */
-    .fade-up { transform: translateY(8px); opacity:0; transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s;}
-    .is-visible { transform: translateY(0); opacity:1; }
-    .lift { transition: transform .18s ease, box-shadow .18s ease; }
-    .lift:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
-
-    /* nav glass */
-    header.nav { backdrop-filter: blur(6px); background: rgba(255,255,255,0.5); border-radius: 16px; }
-
-    /* buttons */
-    .btn-primary {
-      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color: white;
-      padding: .65rem 1rem;
-      border-radius: 12px;
-      font-weight:600;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.08);
-    }
-    .btn-primary:active { transform: translateY(1px) scale(.998); }
-    .btn-ghost {
-      background: white;
-      border: 1px solid rgba(15,23,42,0.06);
-      border-radius: 12px;
-      padding: .55rem .95rem;
-      font-weight:600;
-    }
-
-    /* hero card */
-    .hero-card {
-      border-radius: var(--radius);
-      box-shadow: 0 16px 50px rgba(2,6,23,0.06);
-      overflow: hidden;
-    }
-
-    /* project card style */
-    .project-card { border-radius: 12px; overflow: hidden; background: var(--card); transition: transform .25s ease, box-shadow .25s ease; }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
-
-    /* modal */
-    .modal-backdrop { background: rgba(2,6,23,0.55); }
-    .modal { max-width: 920px; width: calc(100% - 32px); border-radius: 14px; overflow: hidden; }
-
-    /* small helpers for truncation */
-    .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; -webkit-font-smoothing:antialiased; background: #f8fafc; color: #0f172a; }
+    .nav-glass { backdrop-filter: blur(6px); background: rgba(255,255,255,0.6); }
+    .btn-primary { background: var(--accent); color: white; box-shadow: 0 8px 28px rgba(6,182,212,0.12); }
+    .btn-primary:hover { background: var(--accent-600); transform: translateY(-1px); }
+    .btn-ghost { border: 1px solid #e6eef0; background: white; color: #0f172a; }
+    .card-elev { box-shadow: 0 10px 30px rgba(2,6,23,0.06); border-radius: 14px; }
     /* accessible focus */
-    :focus { outline: 3px solid rgba(6,182,212,0.12); outline-offset: 3px; }
-
-    /* responsive tweaks if needed */
-    @media (min-width: 1024px){
-      .hero-image { height: 360px; object-fit:cover; }
-    }
+    :focus { outline: 3px solid rgba(6,182,212,0.18); outline-offset: 3px; }
+    /* image placeholder */
+    .img-placeholder { background: linear-gradient(180deg,#eef8f9 0%, #ffffff 100%); min-height: 160px; display:flex; align-items:center; justify-content:center; color: #9ca3af; border-radius: 12px; }
   </style>
 </head>
-<body class="antialiased">
+<body>
 
-  <!-- HEADER / NAV -->
-  <header class="fixed top-6 left-0 right-0 z-50 px-6">
-    <div class="max-w-6xl mx-auto">
-      <nav class="flex items-center justify-between p-3 nav">
-        <a href="#" class="text-lg md:text-xl font-semibold ml-1">Wave<span class="text-[color:var(--accent-2)]">Studio</span></a>
+  <!-- STICKY NAV -->
+  <header class="fixed inset-x-0 top-4 z-50 px-4">
+    <div class="max-w-5xl mx-auto">
+      <nav class="flex items-center justify-between p-3 rounded-2xl nav-glass" aria-label="Primary">
+        <a href="#hero" class="text-lg font-semibold">Wave Studio</a>
 
         <div class="hidden md:flex items-center gap-6 text-sm text-slate-700">
           <a href="#work" class="hover:text-slate-900">Work</a>
           <a href="#about" class="hover:text-slate-900">About</a>
           <a href="#contact" class="hover:text-slate-900">Contact</a>
-          <a href="/cv.pdf" class="btn-ghost">Download CV</a>
+          <a href="/cv.pdf" class="px-3 py-1 border rounded-md">Download CV</a>
         </div>
 
-        <!-- mobile menu trigger -->
-        <button id="btnMenu" class="md:hidden p-2 rounded-md" aria-label="Open menu">☰</button>
+        <button id="menuBtn" class="md:hidden p-2 rounded-md" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">☰</button>
       </nav>
     </div>
   </header>
 
-  <!-- MOBILE MENU (simple) -->
-  <div id="mobileMenu" class="fixed inset-0 z-40 hidden">
-    <div class="modal-backdrop absolute inset-0" onclick="toggleMenu(false)"></div>
-    <div class="absolute right-4 top-20 bg-white rounded-xl p-5 shadow-lg w-[86%] max-w-xs">
-      <a href="#work" class="block py-2">Work</a>
-      <a href="#about" class="block py-2">About</a>
-      <a href="#contact" class="block py-2">Contact</a>
-      <a href="/cv.pdf" class="block py-3 mt-2 btn-ghost text-center">Download CV</a>
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="fixed inset-0 z-40 hidden bg-black/40 p-6">
+    <div class="bg-white rounded-xl p-6 max-w-sm mx-auto mt-20 card-elev">
+      <button id="closeMenu" class="mb-4 text-slate-600">Tutup ✕</button>
+      <nav class="flex flex-col gap-3 text-base">
+        <a href="#work" class="py-2 rounded hover:bg-slate-50">Work</a>
+        <a href="#about" class="py-2 rounded hover:bg-slate-50">About</a>
+        <a href="#process" class="py-2 rounded hover:bg-slate-50">Process</a>
+        <a href="#contact" class="py-2 rounded hover:bg-slate-50">Contact</a>
+        <a href="/cv.pdf" class="py-2 rounded border text-center">Download CV</a>
+      </nav>
     </div>
   </div>
 
-  <!-- MAIN -->
-  <main class="max-w-6xl mx-auto px-6 pt-28 pb-24">
+  <main class="max-w-5xl mx-auto px-4 pt-28 pb-20">
     <!-- HERO -->
-    <section id="hero" class="mb-12">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div class="fade-up" data-appear>
-          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Creative Designer &amp; UI/UX — <span class="text-[color:var(--accent-2)]">Wave Studio</span></h1>
-          <p class="mt-4 text-slate-600 max-w-xl">Saya membantu startup & agritech merancang produk digital yang intuitif dan berdampak — dari research, prototyping hingga implementasi visual.</p>
+    <section id="hero" class="bg-white p-6 md:p-10 rounded-2xl mb-8 card-elev overflow-hidden">
+      <div class="md:flex md:items-center md:justify-between gap-6">
+        <div class="md:flex-1">
+          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Creative Designer <span class="text-[color:var(--accent)]">&</span> UI/UX</h1>
+          <p class="mt-4 text-slate-700 max-w-xl">Saya membantu startup & agritech merancang produk digital yang intuitif dan berdampak — dari research, prototyping hingga implementasi visual.</p>
 
-          <div class="mt-6 flex flex-wrap gap-3 items-center">
-            <a href="#work" class="btn-primary lift inline-flex items-center gap-2">
-              <!-- subtle icon -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Lihat Portofolio
-            </a>
-
-            <a href="#contact" class="btn-ghost lift inline-flex items-center gap-2">
-              Hubungi Saya
-            </a>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#work" class="inline-flex items-center gap-2 btn-primary px-5 py-3 rounded-lg text-sm">Lihat Portofolio</a>
+            <a href="#contact" class="inline-flex items-center gap-2 btn-ghost px-5 py-3 rounded-lg text-sm">Hubungi Saya</a>
+            <a href="/cv.pdf" class="hidden md:inline-block px-3 py-2 rounded-md text-sm border">Download CV</a>
           </div>
 
-          <div class="mt-5 text-sm text-slate-500">Tools: Figma • Tailwind • Webflow • Adobe • HTML/CSS • Prototyping</div>
+          <div class="mt-5 text-sm text-slate-500">Tools: Figma • Tailwind • Webflow • Adobe Suite • Basic HTML/CSS</div>
         </div>
 
-        <div class="fade-up hero-card" data-appear>
-          <!-- hero image (swap with your mockup) -->
-          <picture>
-            <source srcset="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=60" type="image/webp">
-            <img class="w-full hero-image" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=60" alt="hero mockup" loading="lazy">
-          </picture>
+        <div class="mt-6 md:mt-0 md:w-96">
+          <!-- improved hero image with lazy loading and fallback placeholder -->
+          <div class="rounded-xl overflow-hidden card-elev">
+            <picture>
+              <!-- WebP first -->
+              <source srcset="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1200&q=60" type="image/webp">
+              <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1200&q=60" alt="hero mockup" loading="lazy" class="w-full h-60 object-cover">
+            </picture>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SELECTED WORK -->
-    <section id="work" class="mb-12">
-      <div class="flex items-center justify-between mb-6">
+    <!-- WORK -->
+    <section id="work" class="mb-10">
+      <div class="flex items-center justify-between mb-4">
         <div>
           <h2 class="text-2xl font-semibold">Selected Work</h2>
-          <p class="text-sm text-slate-500 mt-1">Case study yang menonjolkan proses & dampak — bukan hanya screenshot.</p>
+          <p class="mt-1 text-sm text-slate-600">Studi kasus pilihan — klik untuk detail.</p>
         </div>
 
         <div class="flex items-center gap-3">
-          <label class="text-sm text-slate-600">Filter</label>
-          <select id="filter" class="px-3 py-2 border rounded-md text-sm">
+          <label class="text-sm text-slate-600">Filter:</label>
+          <select id="filter" class="px-3 py-2 rounded border text-sm">
             <option value="all">Semua</option>
             <option value="uiux">UI/UX</option>
             <option value="branding">Branding</option>
@@ -170,43 +112,63 @@
         </div>
       </div>
 
-      <div id="projects" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- project cards rendered by JS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="projects">
+        <!-- sample card (copy / edit for each project) -->
+        <article tabindex="0" role="button" class="bg-white p-4 rounded-2xl card-elev hover:translate-y-[-6px] transition-transform" data-type="uiux" data-title="UI/UX Aplikasi Pemesanan Drone" data-summary="Menyederhanakan alur pemesanan; konversi +28%." data-image="https://images.unsplash.com/photo-1545235617-2d11a9b3f9d4?auto=format&fit=crop&w=1200&q=60" data-link="case-drone.html">
+          <div class="rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1545235617-2d11a9b3f9d4?auto=format&fit=crop&w=1200&q=60" alt="drone project" class="w-full h-44 object-cover" loading="lazy">
+          </div>
+          <div class="mt-4">
+            <h3 class="font-semibold text-lg">UI/UX Aplikasi Pemesanan Drone</h3>
+            <p class="text-sm text-slate-600 mt-2">Lead Designer — menyederhanakan alur pemesanan; konversi naik 28%.</p>
+            <div class="mt-3 flex items-center gap-3">
+              <button class="text-[color:var(--accent)] text-sm open-project">Buka detail →</button>
+              <a href="case-drone.html" class="text-sm text-slate-500">Halaman lengkap</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- add more project cards as needed -->
       </div>
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="mb-12">
-      <div class="grid md:grid-cols-3 gap-6 items-center">
-        <div class="md:col-span-2 bg-white p-6 rounded-2xl card-elev">
-          <h3 class="text-xl font-semibold">About</h3>
-          <p class="mt-3 text-slate-700">Saya seorang designer dengan fokus UX & visual. Mengerjakan end-to-end product design: discovery, design systems, visual design & prototyping. Prefer kerja remote & project berbasis impact.</p>
-          <ul class="mt-4 text-sm text-slate-600 space-y-1">
-            <li>• 6+ tahun pengalaman di product & agency</li>
-            <li>• Klien: startup agritech, logistics, fintech</li>
-            <li>• Tools: Figma, FigJam, Adobe, Webflow</li>
-          </ul>
+    <section id="about" class="mb-10 bg-white p-6 rounded-2xl card-elev">
+      <div class="md:flex md:items-center md:gap-8">
+        <div class="md:flex-1">
+          <h2 class="text-2xl font-semibold">About</h2>
+          <p class="mt-3 text-slate-700">Wave Studio — Creative Designer & UI/UX. Latar belakang Ilmu Komputer & 6 tahun pengalaman. Fokus pada produk yang mudah dipakai dan berdampak pada KPI bisnis.</p>
         </div>
-
-        <div class="bg-white p-6 rounded-2xl card-elev text-center">
-          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=60" alt="profile" class="w-28 h-28 object-cover rounded-full mx-auto">
-          <h4 class="mt-3 font-semibold">Teguh Eka</h4>
-          <div class="text-sm text-slate-600 mt-1">Lead Designer</div>
+        <div class="mt-6 md:mt-0 md:w-56">
+          <div class="rounded-xl overflow-hidden shadow"><img src="https://via.placeholder.com/400" alt="Foto Wave Studio" class="w-full h-40 object-cover"></div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="mb-12 bg-white p-6 rounded-2xl card-elev">
-      <div class="md:flex md:items-center md:justify-between">
-        <div>
-          <h3 class="text-xl font-semibold">Let’s work together</h3>
-          <p class="text-slate-600 mt-2">Tertarik bekerja sama? Kirim pesan atau hubungi saya via email / LinkedIn.</p>
-        </div>
+    <!-- PROCESS -->
+    <section id="process" class="mb-10 bg-white p-6 rounded-2xl card-elev">
+      <h2 class="text-2xl font-semibold mb-3">Process</h2>
+      <div class="grid md:grid-cols-4 gap-4 text-sm">
+        <div class="p-3 rounded-lg bg-slate-50"><strong>Research</strong><div class="text-slate-600 mt-1">User interviews, analytics</div></div>
+        <div class="p-3 rounded-lg bg-slate-50"><strong>Ideation</strong><div class="text-slate-600 mt-1">Workshops & sketches</div></div>
+        <div class="p-3 rounded-lg bg-slate-50"><strong>Design</strong><div class="text-slate-600 mt-1">Wireframes → hi-fi</div></div>
+        <div class="p-3 rounded-lg bg-slate-50"><strong>Validate</strong><div class="text-slate-600 mt-1">Usability testing</div></div>
+      </div>
+    </section>
 
-        <div class="mt-4 md:mt-0 flex gap-3">
-          <a href="mailto:idn@wavestudio.space" class="btn-primary inline-flex items-center">Email</a>
-          <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="btn-ghost">LinkedIn</a>
+    <!-- CONTACT -->
+    <section id="contact" class="mb-10 bg-white p-6 rounded-2xl card-elev">
+      <h2 class="text-2xl font-semibold">Contact</h2>
+      <p class="mt-2 text-slate-700">Tertarik bekerja sama? Kirim email atau hubungi LinkedIn saya.</p>
+
+      <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm text-slate-600">
+        <div>
+          <div class="font-medium">Email</div>
+          <div class="mt-1"><a href="mailto:idn@wavestudio.space" class="text-[color:var(--accent)]">idn@wavestudio.space</a></div>
+        </div>
+        <div>
+          <div class="font-medium">LinkedIn</div>
+          <div class="mt-1"><a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="text-[color:var(--accent)]">linkedin.com/in/yourprofile</a></div>
         </div>
       </div>
     </section>
@@ -214,154 +176,79 @@
     <footer class="text-center text-sm text-slate-500 mt-6">© <span id="year"></span> Wave Studio</footer>
   </main>
 
-  <!-- PROJECT MODAL -->
-  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6">
-    <div class="modal-backdrop absolute inset-0" tabindex="-1" aria-hidden="true"></div>
-    <div class="bg-white modal card-elev relative z-10">
-      <div class="md:flex">
-        <div class="md:w-1/2">
-          <img id="modalImg" src="" alt="" class="w-full h-72 md:h-full object-cover">
+  <!-- Modal (reuse) -->
+  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center" aria-hidden="true">
+    <div id="modalBackdrop" class="absolute inset-0 bg-black/40" tabindex="-1"></div>
+    <div role="dialog" aria-modal="true" class="relative max-w-3xl mx-4">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-xl">
+        <div class="flex items-start justify-between p-4 border-b">
+          <h3 id="modalTitle" class="text-lg font-semibold">Title</h3>
+          <button id="modalClose" class="p-2 rounded hover:bg-slate-100" aria-label="Tutup">✕</button>
         </div>
-        <div class="p-6 md:w-1/2">
-          <button id="modalClose" class="absolute right-4 top-4 text-slate-500">✕</button>
-          <h3 id="modalTitle" class="text-2xl font-semibold"></h3>
-          <p id="modalType" class="text-sm text-slate-500 mt-2"></p>
-          <p id="modalDesc" class="mt-4 text-slate-700"></p>
-          <div class="mt-6">
-            <a id="modalLink" href="#" class="btn-primary">Lihat halaman lengkap</a>
+        <div class="p-6">
+          <img id="modalImage" src="" alt="" class="w-full h-64 object-cover rounded-lg mb-4" />
+          <p id="modalSummary" class="text-slate-700"></p>
+          <div class="mt-4">
+            <a id="modalLink" href="#" class="inline-block px-4 py-2 rounded-md bg-[color:var(--accent)] text-white">Lihat halaman lengkap</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- small script: render projects, modal, animation observer -->
+  <!-- Back to top -->
+  <button id="backTop" class="fixed right-6 bottom-6 hidden p-3 rounded-full bg-[color:var(--accent)] text-white shadow-lg" title="Kembali ke atas">↑</button>
+
   <script>
-    // sample projects data (ganti dengan milikmu atau render dinamis)
-    const projects = [
-      {
-        id: 'drone',
-        title: 'UI/UX Pemesanan Drone',
-        summary: 'Menyederhanakan alur pemesanan — konversi +28%.',
-        type: 'uiux',
-        image: 'https://images.unsplash.com/photo-1545235617-2d11a9b3f9d4?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      },
-      {
-        id: 'agritech',
-        title: 'Branding & Dashboard Agritech',
-        summary: 'Rebranding dan dashboard desain untuk monitoring lahan.',
-        type: 'branding',
-        image: 'https://images.unsplash.com/photo-1504609813442-a8929a1a9e5b?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      },
-      {
-        id: 'interior3d',
-        title: 'Visual 3D Interior',
-        summary: 'Visualisasi interior untuk presentasi investor.',
-        type: 'visual3d',
-        image: 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=60',
-        link: '#'
-      }
-    ];
+    // helpers
+    const qs = s => document.querySelector(s);
+    const qsa = s => Array.from(document.querySelectorAll(s));
 
-    // render project cards
-    const projectsEl = document.getElementById('projects');
-    function renderProjects(list){
-      projectsEl.innerHTML = '';
-      list.forEach(p => {
-        const el = document.createElement('article');
-        el.className = 'project-card overflow-hidden bg-white lift';
-        el.setAttribute('tabindex','0');
-        el.innerHTML = `
-          <div class="w-full h-44 overflow-hidden">
-            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover" loading="lazy">
-          </div>
-          <div class="p-4">
-            <h4 class="font-semibold text-lg">${p.title}</h4>
-            <p class="text-sm text-slate-600 mt-2 line-clamp-3">${p.summary}</p>
-            <div class="mt-3 flex items-center justify-between">
-              <span class="text-xs text-slate-500 px-2 py-1 rounded bg-slate-50">${p.type.toUpperCase()}</span>
-              <button class="text-[color:var(--accent-2)] text-sm open-project" data-id="${p.id}">Buka detail →</button>
-            </div>
-          </div>
-        `;
-        projectsEl.appendChild(el);
-      });
-    }
+    // Mobile menu
+    const menuBtn = qs('#menuBtn'), mobileMenu = qs('#mobileMenu'), closeMenu = qs('#closeMenu');
+    menuBtn?.addEventListener('click', ()=> {
+      mobileMenu.classList.remove('hidden'); menuBtn.setAttribute('aria-expanded','true');
+    });
+    closeMenu?.addEventListener('click', ()=> {
+      mobileMenu.classList.add('hidden'); menuBtn.setAttribute('aria-expanded','false');
+    });
 
-    // initial render
-    renderProjects(projects);
-
-    // filtering
-    document.getElementById('filter').addEventListener('change', e => {
+    // Filter logic
+    qs('#filter')?.addEventListener('change', (e)=>{
       const v = e.target.value;
-      if(v === 'all') renderProjects(projects);
-      else renderProjects(projects.filter(p => p.type === v));
+      qsa('#projects article').forEach(card => card.style.display = (v === 'all' || card.dataset.type === v) ? '' : 'none');
     });
 
-    // modal logic
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalImg = document.getElementById('modalImg');
-    const modalLink = document.getElementById('modalLink');
-    const modalType = document.getElementById('modalType');
+    // Modal preview
+    const modal = qs('#modal'), modalBackdrop = qs('#modalBackdrop'), modalClose = qs('#modalClose');
+    const modalTitle = qs('#modalTitle'), modalImage = qs('#modalImage'), modalSummary = qs('#modalSummary'), modalLink = qs('#modalLink');
 
-    function openModal(id){
-      const p = projects.find(x => x.id === id);
-      if(!p) return;
-      modalTitle.textContent = p.title;
-      modalDesc.textContent = p.summary;
-      modalImg.src = p.image;
-      modalImg.alt = p.title;
-      modalLink.href = p.link || '#';
-      modalType.textContent = p.type.toUpperCase();
-      modal.classList.remove('hidden');
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+    function openModalFromCard(card){
+      modalTitle.textContent = card.dataset.title;
+      modalImage.src = card.dataset.image;
+      modalImage.alt = card.dataset.title;
+      modalSummary.textContent = card.dataset.summary;
+      modalLink.href = card.dataset.link || '#';
+      modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow='hidden';
     }
-    function closeModal(){
-      modal.classList.add('hidden');
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+    function closeModal(){ modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow=''; }
 
-    document.addEventListener('click', e => {
-      const t = e.target;
-      if(t.classList.contains('open-project')){
-        openModal(t.dataset.id);
-      }
-      if(t.id === 'modalClose' || t.classList.contains('modal-backdrop')) closeModal();
+    qsa('.open-project').forEach(btn => btn.addEventListener('click', e => openModalFromCard(e.currentTarget.closest('article'))));
+    qsa('#projects article').forEach(card => {
+      card.addEventListener('click', ()=> openModalFromCard(card));
+      card.addEventListener('keydown', e => { if(e.key==='Enter') openModalFromCard(card); });
     });
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape') closeModal();
-    });
+    modalClose?.addEventListener('click', closeModal);
+    modalBackdrop?.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => { if(e.key==='Escape' && !modal.classList.contains('hidden')) closeModal(); });
 
-    // small menu toggle
-    function toggleMenu(v){
-      const el = document.getElementById('mobileMenu');
-      if(typeof v === 'boolean'){
-        el.classList.toggle('hidden', !v);
-      } else el.classList.toggle('hidden');
-    }
-    document.getElementById('btnMenu').addEventListener('click', ()=> toggleMenu());
+    // Back to top
+    const backTop = qs('#backTop');
+    window.addEventListener('scroll', ()=> { backTop.classList.toggle('hidden', window.scrollY < 400); });
+    backTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
 
-    // animate on scroll (simple intersection observer)
-    const appear = document.querySelectorAll('[data-appear]');
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    }, {threshold: 0.08});
-    appear.forEach(a => obs.observe(a));
-
-    // set year
+    // Set year
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // progressive enhancement: try to use SF Pro Display if you uploaded font to /assets/fonts/
-    // If you want SF Pro locally, add @font-face in CSS and put files under /assets/fonts/
   </script>
-
 </body>
 </html>
